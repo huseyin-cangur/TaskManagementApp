@@ -2,7 +2,9 @@
 
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using TaskManagementApp.Application.Repositories;
 using TaskManagementApp.Application.Services;
+using TaskManagementApp.Domain;
 using TaskManagementApp.Domain.Dtos;
 using TaskManagementApp.Domain.Entities;
 using TaskManagementApp.Persistance.Repositories;
@@ -12,29 +14,36 @@ namespace TaskManagementApp.Persistance.Services
 {
     public class TaskService : ITaskService
     {
-        private readonly TaskRepository _taskRepository;
-        private readonly UserTaskRepository _userTaskRepository;
+        private readonly ITaskRepository _taskRepository;
+        private readonly IUserTaskRepository _userTaskRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IMapper _mapper;
 
-        public TaskService(TaskRepository taskRepository, UserTaskRepository userTaskRepository, IMapper mapper = null)
+        public TaskService(ITaskRepository taskRepository, IUserTaskRepository userTaskRepository, IMapper mapper = null, IUnitOfWork unitOfWork = null)
         {
             _taskRepository = taskRepository;
             _userTaskRepository = userTaskRepository;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         public async System.Threading.Tasks.Task AddAsync(CreateTaskDto dto)
         {
             Domain.Entities.Task task = _mapper.Map<Domain.Entities.Task>(dto);
+            task.Id=Guid.NewGuid().ToString();
+            task.CreatedDate=DateTime.Now;
+            task.UpdatedDate=DateTime.Now;
             await _taskRepository.AddAsync(task);
 
             UserTask userTask = new UserTask
             {
-                TaskId = dto.TaskId,
+                TaskId = task.Id,
                 UserId = dto.UserId
             };
             await _userTaskRepository.AddAsync(userTask);
+
+            _unitOfWork.SaveChangesAsync();
 
         }
 
@@ -44,12 +53,14 @@ namespace TaskManagementApp.Persistance.Services
 
             var userTasks = await _userTaskRepository.GetWhere(p => p.TaskId == id).ToListAsync();
             _userTaskRepository.RemoveRange(userTasks);
+             _unitOfWork.SaveChangesAsync();
         }
 
         public void UpdateAsync(UpdateTaskDto dto)
         {
             Domain.Entities.Task task = _mapper.Map<Domain.Entities.Task>(dto);
             _taskRepository.Update(task);
+             _unitOfWork.SaveChangesAsync();
 
         }
     }

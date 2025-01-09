@@ -7,7 +7,7 @@ using TaskManagementApp.Persistance.Context;
 
 namespace TaskManagementApp.Persistance.Repositories
 {
-    public class TaskRepository : IRepository<Domain.Entities.Task>
+    public class TaskRepository : ITaskRepository
     {
         private readonly AppDbContext _appDbContext;
         public DbSet<Domain.Entities.Task> Entity { get; set; }

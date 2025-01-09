@@ -1,26 +1,51 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using TaskManagementApp.Application.Repositories;
+using TaskManagementApp.Application.Services;
+using TaskManagementApp.Persistance;
 using TaskManagementApp.Persistance.Context;
+using TaskManagementApp.Persistance.Repositories;
+using TaskManagementApp.Persistance.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers(); 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
- builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlServer")));
+builder.Services.AddScoped<ITaskService, TaskService>();
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<IUserTaskRepository, UserTaskRepository>();
+builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlServer")));
+
+builder.Services.AddSwaggerGen(c =>
+{
+
+    c.SwaggerDoc("v1", new OpenApiInfo{ Title = "MyAPİ", Version = "V1" });
+
+});
+
 
 var app = builder.Build();
+app.MapControllers();
 
+ 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1"));
+
 }
 
 app.UseHttpsRedirection();
 
- 
+
 
 app.Run();
 
- 
+

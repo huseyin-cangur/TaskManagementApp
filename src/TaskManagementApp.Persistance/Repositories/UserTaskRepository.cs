@@ -8,7 +8,7 @@ using TaskManagementApp.Persistance.Context;
 
 namespace TaskManagementApp.Persistance.Repositories
 {
-    public class UserTaskRepository : IRepository<UserTask>
+    public class UserTaskRepository : IUserTaskRepository
     {
         private readonly AppDbContext _appDbContext;
 
