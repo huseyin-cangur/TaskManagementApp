@@ -1,12 +1,11 @@
 
 
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
 using TaskManagementApp.Domain.Abstraction;
 
-namespace TaskManagementApp.Application.Repositories
+namespace TaskManagementApp.Application.Services
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IBaseService<T> where T : BaseEntity
     {
         IQueryable<T> GetAll();
         IQueryable<T> GetWhere(Expression<Func<T, bool>> predicate);
@@ -16,9 +15,5 @@ namespace TaskManagementApp.Application.Repositories
         void Update(T entity);
         void UpdateRange(IEnumerable<T> entities);
         Task RemoveByIdAsync(string id);
-        void RemoveRange(IEnumerable<T> entities);
-        DbSet<T> Entity { get; }
-
-
     }
 }

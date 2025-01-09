@@ -1,20 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-   <ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0"/>
-   
+    <PackageReference Include="AutoMapper" Version="13.0.1"/>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaskManagementApp.Domain\TaskManagementApp.Domain.csproj"/>
-     <ProjectReference Include="..\TaskManagementApp.Application\TaskManagementApp.Application.csproj"/>
+    <ProjectReference Include="..\TaskManagementApp.Application\TaskManagementApp.Application.csproj"/>
   </ItemGroup>
-
 </Project>

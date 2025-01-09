@@ -51,6 +51,11 @@ namespace TaskManagementApp.Persistance.Repositories
                 Entity.Remove(entity);
         }
 
+        public void RemoveRange(IEnumerable<UserTask> entities)
+        {
+            Entity.RemoveRange(entities);
+        }
+
         public void Update(UserTask entity)
         {
             Entity.Update(entity);

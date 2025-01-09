@@ -7,12 +7,12 @@ using TaskManagementApp.Persistance.Context;
 
 namespace TaskManagementApp.Persistance.Repositories
 {
-    public class TaskRepositories : IRepository<Domain.Entities.Task>
+    public class TaskRepository : IRepository<Domain.Entities.Task>
     {
         private readonly AppDbContext _appDbContext;
         public DbSet<Domain.Entities.Task> Entity { get; set; }
 
-        public TaskRepositories(AppDbContext appDbContext)
+        public TaskRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
@@ -57,6 +57,11 @@ namespace TaskManagementApp.Persistance.Repositories
         public void UpdateRange(IEnumerable<Domain.Entities.Task> entities)
         {
               Entity.UpdateRange(entities);
+        }
+
+        public void RemoveRange(IEnumerable<Domain.Entities.Task> entities)
+        {
+            Entity.RemoveRange(entities);
         }
     }
 }
