@@ -13,7 +13,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaskManagementApp.Domain\TaskManagementApp.Domain.csproj"/>
-    
   </ItemGroup>
 
 </Project>

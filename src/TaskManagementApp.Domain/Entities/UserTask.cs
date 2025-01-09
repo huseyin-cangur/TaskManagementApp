@@ -1,10 +1,11 @@
 
 
 using System.ComponentModel.DataAnnotations.Schema;
+using TaskManagementApp.Domain.Abstraction;
 
 namespace TaskManagementApp.Domain.Entities
 {
-    public class UserTask
+    public class UserTask:BaseEntity
     {
         [ForeignKey("User")]
         public string UserId { get; set; }
