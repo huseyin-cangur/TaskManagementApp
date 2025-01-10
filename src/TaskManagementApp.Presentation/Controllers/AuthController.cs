@@ -17,7 +17,7 @@ namespace TaskManagementApp.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login(LoginDto dto)
+        public async Task<IActionResult> Login([FromQuery] LoginDto dto)
         {  
          
              return Ok(await _authService.Login(dto));

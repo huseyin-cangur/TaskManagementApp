@@ -11,7 +11,7 @@ using TaskManagementApp.Persistance.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(); 
+builder.Services.AddControllers();
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -33,15 +33,22 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder
 builder.Services.AddSwaggerGen(c =>
 {
 
-    c.SwaggerDoc("v1", new OpenApiInfo{ Title = "MyAPİ", Version = "V1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyAPİ", Version = "V1" });
 
 });
+builder.Services.AddCors(options =>
+     {
+         options.AddPolicy("AllowAll", builder =>
+             builder.AllowAnyOrigin() // Herhangi bir kaynağa izin ver
+                    .AllowAnyMethod()  // Tüm HTTP metodlarına izin ver
+                    .AllowAnyHeader()); // Tüm başlıklara izin ver
+     });
 
 
 var app = builder.Build();
 app.MapControllers();
 
- 
+app.UseCors("AllowAll");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

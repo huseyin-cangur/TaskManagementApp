@@ -12,20 +12,26 @@ namespace TaskManagementApp.Persistance.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
-        public AuthService(IUserRepository userRepository, IMapper mapper)
+        public AuthService(IUserRepository userRepository, IMapper mapper, IRoleService roleService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _roleService = roleService;
         }
 
         public async Task<UserDto> Login(LoginDto dto)
         {
+
             User user = await _userRepository.GetWhere(p => p.IdentityNumber == dto.IdentityNumber && p.Password == dto.Password).FirstOrDefaultAsync();
-            return _mapper.Map<UserDto>(user);
-      
+            bool checkIsadmin = _roleService.isAdmin(user?.Id);
+            UserDto userDto = _mapper.Map<UserDto>(user);
+            userDto.isAdmin = checkIsadmin;
+            return userDto;
+
         }
-            
+
     }
 }
