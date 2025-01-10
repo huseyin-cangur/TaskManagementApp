@@ -1,14 +1,16 @@
 
 using AutoMapper;
 using TaskManagementApp.Domain.Dtos;
+using TaskManagementApp.Domain.Entities;
 
 namespace TaskManagementApp.Persistance.Mapping
 {
-    public class MappingProfile:Profile
+    public class MappingProfile : Profile
     {
         public MappingProfile()
         {
-            CreateMap<CreateTaskDto,Domain.Entities.Task>().ReverseMap();
+            CreateMap<CreateTaskDto, Domain.Entities.Task>().ReverseMap();
+            CreateMap<CreateUserTaskDto, UserTask>().ReverseMap();
         }
     }
 }
