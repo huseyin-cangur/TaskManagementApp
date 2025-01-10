@@ -32,14 +32,18 @@ namespace TaskManagementApp.Persistance.Services
         {
             Domain.Entities.Task task = _mapper.Map<Domain.Entities.Task>(dto);
             task.Id=Guid.NewGuid().ToString();
-            task.CreatedDate=DateTime.Now;
-            task.UpdatedDate=DateTime.Now;
+            task.CreatedDate=DateTime.Now.ToUniversalTime();
+            task.UpdatedDate=DateTime.Now.ToUniversalTime();
             await _taskRepository.AddAsync(task);
 
             UserTask userTask = new UserTask
             {
+                Id = Guid.NewGuid().ToString(),
                 TaskId = task.Id,
-                UserId = dto.UserId
+                UserId = dto.UserId,
+                CreatedDate=DateTime.Now.ToUniversalTime(),
+                UpdatedDate=DateTime.Now.ToUniversalTime(),
+                
             };
             await _userTaskRepository.AddAsync(userTask);
 

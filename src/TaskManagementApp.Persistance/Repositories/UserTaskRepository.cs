@@ -11,13 +11,15 @@ namespace TaskManagementApp.Persistance.Repositories
     public class UserTaskRepository : IUserTaskRepository
     {
         private readonly AppDbContext _appDbContext;
-
+        public DbSet<UserTask> Entity { get; set; }
         public UserTaskRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
+            Entity = _appDbContext.Set<UserTask>();
+
         }
 
-        public DbSet<UserTask> Entity { get; set; }
+
 
         public async System.Threading.Tasks.Task AddAsync(UserTask entity)
         {
@@ -63,7 +65,7 @@ namespace TaskManagementApp.Persistance.Repositories
 
         public void UpdateRange(IEnumerable<UserTask> entities)
         {
-             Entity.UpdateRange(entities);
+            Entity.UpdateRange(entities);
         }
     }
 }

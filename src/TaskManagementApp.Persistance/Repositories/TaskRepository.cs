@@ -15,6 +15,7 @@ namespace TaskManagementApp.Persistance.Repositories
         public TaskRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
+              Entity = _appDbContext.Set<Domain.Entities.Task>();
         }
 
         public async Task AddAsync(Domain.Entities.Task entity)

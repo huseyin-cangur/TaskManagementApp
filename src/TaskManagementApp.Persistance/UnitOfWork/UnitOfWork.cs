@@ -1,10 +1,11 @@
 
- 
+
+using TaskManagementApp.Domain;
 using TaskManagementApp.Persistance.Context;
 
 namespace TaskManagementApp.Persistance.UnitOfWork
 {
-    public class UnitOfWork :IDisposable
+    public class UnitOfWork :IUnitOfWork,IDisposable
     {
         private readonly AppDbContext _appDbContext;
 
@@ -27,7 +28,7 @@ namespace TaskManagementApp.Persistance.UnitOfWork
                         _appDbContext.SaveChanges();
                         transaction.Commit();
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         transaction.Rollback();
                         throw;
