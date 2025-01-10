@@ -11,6 +11,7 @@ namespace TaskManagementApp.Persistance.Mapping
         {
             CreateMap<CreateTaskDto, Domain.Entities.Task>().ReverseMap();
             CreateMap<CreateUserTaskDto, UserTask>().ReverseMap();
+            CreateMap<UserDto, User>().ReverseMap();
         }
     }
 }
