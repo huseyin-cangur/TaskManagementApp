@@ -30,10 +30,10 @@ namespace TaskManagementApp.Presentation.Controllers
             return Ok( _taskService.GetAll(userId));
         }
         [HttpGet]
-        public IActionResult GetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
         
-            return Ok( _taskService.GetById(id));
+            return Ok( await _taskService.GetById(id));
         }
 
     }

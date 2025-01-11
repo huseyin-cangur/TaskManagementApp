@@ -5,7 +5,7 @@ using TaskManagementApp.Persistance.Context;
 
 namespace TaskManagementApp.Persistance.UnitOfWork
 {
-    public class UnitOfWork :IUnitOfWork,IDisposable
+    public class UnitOfWork :IUnitOfWork
     {
         private readonly AppDbContext _appDbContext;
 
@@ -40,25 +40,6 @@ namespace TaskManagementApp.Persistance.UnitOfWork
                 // TODO: Hata işleme alanı
             }
         }
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    _appDbContext.Dispose();
-                }
-                disposed = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
+        
     }
 }
