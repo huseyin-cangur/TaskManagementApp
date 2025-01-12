@@ -62,7 +62,7 @@ namespace TaskManagementApp.Persistance.Services
 
         }
 
-        public IList<TaskDto> GetAll(string userId)
+        public async Task<IList<TaskDto>> GetAll(string userId)
         {
             List<TaskDto> taskDtos = new List<TaskDto>();
             bool checkIsAdmin = _roleService.isAdmin(userId);
@@ -86,10 +86,13 @@ namespace TaskManagementApp.Persistance.Services
             }
             else
             {
-                var tasks = from userTask in _userTaskRepository.GetAll()
+               
+
+
+                var tasks = (from userTask in _userTaskRepository.GetAll()
                             join task in _taskRepository.GetAll() on userTask.TaskId equals task.Id
                             where userTask.UserId == userId
-                            select task;
+                            select task).Distinct().ToList();
 
                 foreach (var task in tasks)
                 {
