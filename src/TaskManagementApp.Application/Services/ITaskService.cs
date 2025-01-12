@@ -8,7 +8,7 @@ namespace TaskManagementApp.Application.Services
     {
         IList<Domain.Entities.Task> GetAll(string userId);
         Task<Domain.Entities.Task>GetById(string id);
-        Task AddAsync(CreateTaskDto dto);
+        Task<CreateTaskDto> AddAsync(CreateTaskDto dto);
         void UpdateAsync(UpdateTaskDto dto);
         Task RemoveByIdAsync(string id);
     }

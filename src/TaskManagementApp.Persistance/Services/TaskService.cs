@@ -30,7 +30,7 @@ namespace TaskManagementApp.Persistance.Services
             _roleService = roleService;
         }
 
-        public async System.Threading.Tasks.Task AddAsync(CreateTaskDto dto)
+        public async System.Threading.Tasks.Task<CreateTaskDto> AddAsync(CreateTaskDto dto)
         {
             Domain.Entities.Task task = _mapper.Map<Domain.Entities.Task>(dto);
             task.Id = Guid.NewGuid().ToString();
@@ -38,18 +38,25 @@ namespace TaskManagementApp.Persistance.Services
             task.UpdatedDate = DateTime.Now.ToUniversalTime();
             await _taskRepository.AddAsync(task);
 
-            UserTask userTask = new UserTask
-            {
-                Id = Guid.NewGuid().ToString(),
-                TaskId = task.Id,
-                UserId = dto.UserId,
-                CreatedDate = DateTime.Now.ToUniversalTime(),
-                UpdatedDate = DateTime.Now.ToUniversalTime(),
 
-            };
-            await _userTaskRepository.AddAsync(userTask);
+            foreach (var userId in dto.UserIds)
+            {
+                UserTask userTask = new UserTask
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    TaskId = task.Id,
+                    UserId = userId,
+                    CreatedDate = DateTime.Now.ToUniversalTime(),
+                    UpdatedDate = DateTime.Now.ToUniversalTime(),
+
+                };
+                await _userTaskRepository.AddAsync(userTask);
+            }
+
 
             _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<CreateTaskDto>(task);
 
         }
 
@@ -57,7 +64,7 @@ namespace TaskManagementApp.Persistance.Services
         {
 
             bool checkIsAdmin = _roleService.isAdmin(userId);
-            
+
             if (checkIsAdmin)
                 return _taskRepository.GetAll().ToList();
 
@@ -74,7 +81,7 @@ namespace TaskManagementApp.Persistance.Services
 
         public async Task<Domain.Entities.Task> GetById(string id)
         {
-           return await _taskRepository.GetByIdAsync(id);
+            return await _taskRepository.GetByIdAsync(id);
         }
 
         public async System.Threading.Tasks.Task RemoveByIdAsync(string id)

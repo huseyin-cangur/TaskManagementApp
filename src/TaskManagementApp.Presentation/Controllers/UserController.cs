@@ -9,6 +9,11 @@ namespace TaskManagementApp.Presentation.Controllers
     {
         private readonly IUserService _userService;
 
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

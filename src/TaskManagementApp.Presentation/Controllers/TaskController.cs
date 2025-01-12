@@ -17,10 +17,10 @@ namespace TaskManagementApp.Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateTaskDto dto)
+        public async Task<IActionResult> Create(CreateTaskDto dto)
         {
            
-            return Ok(_taskService.AddAsync(dto));
+            return Ok( await _taskService.AddAsync(dto));
         }
 
         [HttpGet]
