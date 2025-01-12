@@ -6,10 +6,10 @@ namespace TaskManagementApp.Application.Services
 {
     public interface ITaskService
     {
-        IList<Domain.Entities.Task> GetAll(string userId);
-        Task<Domain.Entities.Task>GetById(string id);
+        IList<TaskDto> GetAll(string userId);
+        Task<TaskDto>GetById(string id);
         Task<CreateTaskDto> AddAsync(CreateTaskDto dto);
-        void UpdateAsync(UpdateTaskDto dto);
-        Task RemoveByIdAsync(string id);
+        Task<UpdateTaskDto> UpdateAsync(UpdateTaskDto dto);
+        Task<bool> RemoveByIdAsync(string id);
     }
 }

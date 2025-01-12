@@ -22,6 +22,12 @@ namespace TaskManagementApp.Presentation.Controllers
            
             return Ok( await _taskService.AddAsync(dto));
         }
+         [HttpPost]
+        public async Task<IActionResult> Update(UpdateTaskDto dto)
+        {
+           
+            return Ok( await _taskService.UpdateAsync(dto));
+        }
 
         [HttpGet]
         public IActionResult GetAll(string userId)
@@ -34,6 +40,12 @@ namespace TaskManagementApp.Presentation.Controllers
         {
         
             return Ok( await _taskService.GetById(id));
+        }
+         [HttpGet]
+        public async Task<IActionResult> Remove(string id)
+        {
+        
+            return Ok(await _taskService.RemoveByIdAsync(id));
         }
 
     }
